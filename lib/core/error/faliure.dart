@@ -15,19 +15,12 @@ class ConnectionFailure extends Failure {
   List<Object?> get props => [];
 }
 
-class AuthFailure extends Failure {
-  final String errorCode;
-  AuthFailure({
-    required this.errorCode,
-  });
-}
-
-class EmailNotVerifiedFailure extends Failure {
-  @override
-  List<Object?> get props => [];
-}
-
 class NoDataFaliure extends Failure{
     @override
       List<Object?> get props => [];
+}
+
+class UnknowFailure extends Failure {
+  @override
+  List<Object?> get props => [];
 }

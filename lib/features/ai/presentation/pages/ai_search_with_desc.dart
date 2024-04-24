@@ -15,10 +15,14 @@ class AiSearchWithDesc extends StatelessWidget {
 
   _buildBody(BuildContext context) => Padding(
       padding: EdgeInsets.only(top: context.getHight(divide: 0.032), left: context.getWidth(divide: 0.037), right: context.getWidth(divide: 0.037), bottom: context.getHight(divide: 0.05)),
-        child: const Column(mainAxisSize: MainAxisSize.max, children: [
-          SearchBarWidget(),
-          Spacer(),
-          Align(alignment: Alignment.bottomRight, child: Image(image: AssetImage('assets/icons/chat_bot_search_image.png'),filterQuality: FilterQuality.high,)),
+        child:  Column(mainAxisSize: MainAxisSize.max, children: [
+          SearchBarWidget(
+            onChanged: (query) {
+              
+            },
+          ),
+         const Spacer(),
+         const Align(alignment: Alignment.bottomRight, child: Image(image: AssetImage('assets/icons/chat_bot_search_image.png'),filterQuality: FilterQuality.high,)),
         ]),
       );
 }

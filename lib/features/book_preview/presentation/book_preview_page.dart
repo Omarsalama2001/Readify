@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
-import 'package:fruit_e_commerce/core/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
+import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
+
 class BookPreveiwPage extends StatefulWidget {
-  const BookPreveiwPage({Key? key}) : super(key: key);
+  final String bookPdfUrl;
+  final String bookName;
+
+  const BookPreveiwPage({
+    Key? key,
+    required this.bookPdfUrl,
+    required this.bookName,
+  }) : super(key: key);
 
   @override
   State<BookPreveiwPage> createState() => _BookPreveiwPageState();
@@ -15,10 +21,15 @@ class BookPreveiwPage extends StatefulWidget {
 class _BookPreveiwPageState extends State<BookPreveiwPage> {
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   late PdfViewerController _pdfViewerController;
+  late PdfTextSearchResult _searchResult;
+  
   int currentPage = 1;
+  bool isDarkMode = false;
   @override
   void initState() {
     _pdfViewerController = PdfViewerController();
+       _searchResult = PdfTextSearchResult();
+
 
     super.initState();
   }
@@ -34,14 +45,19 @@ class _BookPreveiwPageState extends State<BookPreveiwPage> {
         actions: [
           IconButton(onPressed: () {}, icon: Text("Aa", style: GoogleFonts.inter().copyWith(color: Colors.white, fontSize: context.getDefaultSize() * 3))),
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+              },
               icon: Icon(
                 Icons.search,
                 color: Colors.white,
                 size: context.getDefaultSize() * 3,
               )),
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  isDarkMode = !isDarkMode;
+                });
+              },
               icon: Icon(
                 Icons.color_lens,
                 color: Colors.white,
@@ -49,7 +65,7 @@ class _BookPreveiwPageState extends State<BookPreveiwPage> {
               )),
         ],
         title: Text(
-          " Lean UX: Applying Lean Principles to Improve User Experience",
+          widget.bookName,
           style: GoogleFonts.inter().copyWith(color: Colors.white, fontSize: context.getDefaultSize() * 1.7),
         ),
       ),
@@ -57,20 +73,27 @@ class _BookPreveiwPageState extends State<BookPreveiwPage> {
         Column(
           children: [
             Expanded(
-              child: SfPdfViewer.asset(
-                controller: _pdfViewerController,
-                otherSearchTextHighlightColor: Colors.amber,
-                canShowPaginationDialog: true,
-                canShowPageLoadingIndicator: true,
-                canShowScrollStatus: true,
-                pageSpacing: context.getHight(divide: 0.05),
-                onPageChanged: (details) {
-                  setState(() {
-                    currentPage = details.newPageNumber;
-                  });
-                },
-                'assets/icons/bookex.pdf',
-                key: _pdfViewerKey,
+              child: ColorFiltered(
+                colorFilter: isDarkMode ? const ColorFilter.mode(Colors.white, BlendMode.difference) : const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
+                child: SfPdfViewer.network(
+                  onDocumentLoadFailed: (details) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("something went wrong")));
+                  },
+                  controller: _pdfViewerController,
+                  otherSearchTextHighlightColor: Colors.amber,
+                  canShowPaginationDialog: true,
+                  canShowPageLoadingIndicator: true,
+                  canShowScrollStatus: true,
+                  pageSpacing: context.getHight(divide: 0.05),
+                
+                  onPageChanged: (details) {
+                    setState(() {
+                      currentPage = details.newPageNumber;
+                    });
+                  },
+                  widget.bookPdfUrl,
+                  key: _pdfViewerKey,
+                ),
               ),
             ),
           ],

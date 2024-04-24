@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
-import 'package:fruit_e_commerce/core/widgets/search_bar_widget.dart';
+import 'package:fruit_e_commerce/core/widgets/failures_widget.dart';
+import 'package:fruit_e_commerce/features/favourites/presentation/blocs/bloc/favourites_bloc.dart';
 import 'package:fruit_e_commerce/features/favourites/presentation/widgets/favourites_item_widget.dart';
 
 class FavouritesPageWidget extends StatelessWidget {
@@ -12,11 +13,40 @@ class FavouritesPageWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: context.getHight(divide: 0.032), left: context.getWidth(divide: 0.037), right: context.getWidth(divide: 0.037)),
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
-          const SearchBarWidget(),
+          BlocConsumer<FavouritesBloc, FavouritesState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is GetUserFavouritesLoadingState) {
+                return const Expanded(child: Center(child: CircularProgressIndicator()));
+              }
+              if (state is GetUserFavouritesErrorState) {
+                return Expanded(
+                  child: Center(
+                    child: FaliureWidget(
+                      faliureName: state.message,
+                      getType: 'favourites',
+                    ),
+                  ),
+                );
+              }
+              if (state is GetUserFavouritesSuccessState) {
+                return Expanded(
+                    child: ListView.separated(
+                  itemBuilder: (context, index) => FavouritesItemWidget(
+                    favouriteBook: state.favouritesBooks[index],
+                  ),
+                  itemCount: state.favouritesBooks.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: context.getHight(divide: 0.02));
+                  },
+                ));
+              }
 
-          Expanded(child: ListView.separated(itemBuilder: (context, index) => const FavouritesItemWidget(), itemCount: 10, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: context.getHight(divide: 0.02)); },)),
-         
+              return Container();
+            },
+          ),
         ],
       ),
     );

@@ -1,15 +1,27 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fruit_e_commerce/core/constants/cache_keys.dart';
+import 'package:fruit_e_commerce/core/entities/book_entity.dart';
 import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
 import 'package:fruit_e_commerce/core/widgets/book_details_widgets/book_details_widget.dart';
 import 'package:fruit_e_commerce/core/widgets/rating_bar_widget.dart';
+import 'package:fruit_e_commerce/features/favourites/presentation/blocs/bloc/favourites_bloc.dart';
 
 class FavouritesItemWidget extends StatelessWidget {
-  const FavouritesItemWidget({super.key});
+  final BookEntity favouriteBook;
+
+  const FavouritesItemWidget({
+    Key? key,
+    required this.favouriteBook,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
+      onDismissed: (direction) {
+        BlocProvider.of<FavouritesBloc>(context).add(DeleteBookFromFavouritesEvent(userId: TOKENID_KEY, bookId: favouriteBook.bookId));
+      },
       key: UniqueKey(),
       direction: DismissDirection.endToStart,
       background: const ColoredBox(
@@ -23,7 +35,12 @@ class FavouritesItemWidget extends StatelessWidget {
           )),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => BookDetailsWidget()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => BookDetailsWidget(
+                        book: favouriteBook,
+                      )));
         },
         child: Container(
           decoration: BoxDecoration(
@@ -42,9 +59,9 @@ class FavouritesItemWidget extends StatelessWidget {
                   width: context.getWidth(divide: 0.25),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(context.getHight(divide: 0.01))),
-                      image: const DecorationImage(
+                      image: DecorationImage(
                           image: CachedNetworkImageProvider(
-                            'https://m.media-amazon.com/images/I/719fyFgdNJL._AC_UF1000,1000_QL80_.jpg',
+                            favouriteBook.bookCover,
                           ),
                           fit: BoxFit.cover))),
               SizedBox(
@@ -57,7 +74,7 @@ class FavouritesItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Hooked: How to think different ",
+                        favouriteBook.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: context.getHight(divide: 0.015), fontWeight: FontWeight.w800),
@@ -66,7 +83,7 @@ class FavouritesItemWidget extends StatelessWidget {
                         height: context.getDefaultSize() * 0.5,
                       ),
                       Text(
-                        "Nir Eyal",
+                        favouriteBook.author,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: context.getHight(divide: 0.016)),
@@ -74,12 +91,16 @@ class FavouritesItemWidget extends StatelessWidget {
                       SizedBox(
                         height: context.getDefaultSize(),
                       ),
-                      const CustomRatingWidget(),
-                     const Spacer(),
+                      CustomRatingWidget(
+                        rating: favouriteBook.rate,
+                      ),
+                      const Spacer(),
                       Align(
                           alignment: Alignment.bottomRight,
                           child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                BlocProvider.of<FavouritesBloc>(context).add(DeleteBookFromFavouritesEvent(userId: TOKENID_KEY, bookId: favouriteBook.bookId));
+                              },
                               icon: Icon(
                                 Icons.delete_outline,
                                 size: context.getHight(divide: 0.04),

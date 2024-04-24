@@ -12,7 +12,11 @@ class BookAuthorWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: context.getHight(divide: 0.032), left: context.getWidth(divide: 0.037), right: context.getWidth(divide: 0.037)),
       child: Column(children: [
-        const SearchBarWidget(),
+         SearchBarWidget(
+          onChanged: (query) {
+            
+          },
+         ),
         Expanded(
             child: Padding(
           padding: EdgeInsets.all(context.getDefaultSize()),

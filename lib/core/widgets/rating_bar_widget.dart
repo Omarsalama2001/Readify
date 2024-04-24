@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
 import 'package:fruit_e_commerce/core/utils/app_colors.dart';
 
 class CustomRatingWidget extends StatelessWidget {
-  const CustomRatingWidget({super.key});
+  final double rating;
+  const CustomRatingWidget({
+    Key? key,
+    required this.rating,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,7 @@ class CustomRatingWidget extends StatelessWidget {
           itemBuilder: (_, i) => const Icon(Icons.star, color: Colors.amber),
           itemCount: 5,
           itemSize: context.getHight(divide: 0.017),
-          rating: 3.5,
+          rating: rating,
         ));
   }
 }

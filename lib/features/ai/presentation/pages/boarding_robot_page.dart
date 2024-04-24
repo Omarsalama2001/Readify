@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
 import 'package:fruit_e_commerce/core/utils/app_colors.dart';
 import 'package:fruit_e_commerce/features/ai/presentation/pages/chating_page.dart';
-import 'package:fruit_e_commerce/features/home/presentation/pages/home_page.dart';
 import 'package:lottie/lottie.dart';
 
 class BoardingRobotWidget extends StatelessWidget {
