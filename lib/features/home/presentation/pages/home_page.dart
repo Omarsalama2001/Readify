@@ -54,6 +54,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: "favourite"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Ai search"),
         ]),
+      
         floatingActionButton: FloatingActionButton(
           isExtended: true,
           elevation: 0,

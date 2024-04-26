@@ -11,6 +11,7 @@ import 'package:fruit_e_commerce/features/favourites/presentation/blocs/bloc/fav
 import 'package:fruit_e_commerce/features/home/presentation/blocs/bloc/home_bloc.dart';
 import 'package:fruit_e_commerce/features/home/presentation/pages/home_page.dart';
 import 'package:fruit_e_commerce/injection_container.dart' as di;
+import 'package:fruit_e_commerce/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +38,7 @@ class MainApp extends StatelessWidget {
    BlocProvider(create: (_) => ConnectionBloc())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: const HomePage(),
+        home:  Splach(),
         theme: appTheme,
       ),
     );
