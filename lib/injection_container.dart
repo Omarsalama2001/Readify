@@ -1,6 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:fruit_e_commerce/core/constants/api_strings.dart';
 import 'package:fruit_e_commerce/core/network/network_info.dart';
+import 'package:fruit_e_commerce/features/admin/data/data_sources/dashboard_remote_datasource.dart';
+import 'package:fruit_e_commerce/features/admin/data/repositories_impl/dashboard_repository_impl.dart';
+import 'package:fruit_e_commerce/features/admin/domain/repositories/dash_board_repository.dart';
+import 'package:fruit_e_commerce/features/admin/domain/use_cases/add_book_usecase.dart';
+import 'package:fruit_e_commerce/features/admin/domain/use_cases/add_category_usecase.dart';
+import 'package:fruit_e_commerce/features/admin/domain/use_cases/delete_book_usecase.dart';
+import 'package:fruit_e_commerce/features/admin/domain/use_cases/delete_category_usecase.dart';
+import 'package:fruit_e_commerce/features/admin/domain/use_cases/update_category_usecase.dart';
+import 'package:fruit_e_commerce/features/admin/presentation/blocs/bloc/dashboard_bloc.dart';
 import 'package:fruit_e_commerce/features/category/data/data_sources/category_remote_datasource.dart';
 import 'package:fruit_e_commerce/features/category/data/repositories_impl/category_repository_impl.dart';
 import 'package:fruit_e_commerce/features/category/domain/repositories/category_repository.dart';
@@ -28,6 +37,7 @@ Future<void> init() async {
   sl.registerFactory(() => HomeBloc(sl()));
   sl.registerFactory(() => CategoryBloc(sl(), sl()));
   sl.registerFactory(() => FavouritesBloc(sl(), sl(), sl()));
+  sl.registerFactory(() => DashboardBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
 //usecase
   sl.registerLazySingleton(() => GetAllBooksUseCase(homeRepository: sl()));
@@ -36,12 +46,17 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetUserFavouritesUseCase(favouritesRepository: sl()));
   sl.registerLazySingleton(() => AddBookToFavouriteUseCase(favouritesRepository: sl()));
   sl.registerLazySingleton(() => DeleteBookFromFavouritesUseCase(favouritesRepository: sl()));
+  sl.registerLazySingleton(() => AddBookUseCase(dashBoardRepository: sl()));
+  sl.registerLazySingleton(() => AddCategoryUseCase(dashBoardRepository: sl()));
+  sl.registerLazySingleton(() => DeleteBookUseCase(dashBoardRepository: sl()));
+  sl.registerLazySingleton(() => DeleteCategoryUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateCategoryUseCase(dashBoardRepository: sl()));
 
 //repository
   sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(homeRemoteDataSource: sl(), networkInfo: sl()));
   sl.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(networkInfo: sl(), categoryRemoteDataSource: sl()));
   sl.registerLazySingleton<FavouritesRepository>(() => FavouritesRepositoryImpl(networkInfo: sl(), favouritesRemoteDataSource: sl()));
-
+  sl.registerLazySingleton<DashBoardRepository>(() => DashBoardRepositoryImpl(sl(), sl()));
   //!Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(internetConnectionChecker: sl()));
 
@@ -49,6 +64,8 @@ Future<void> init() async {
   sl.registerLazySingleton<HomeRemoteDataSource>(() => HomeRemoteDataSourceImplWithDio(dio: sl()));
   sl.registerLazySingleton<CategoryRemoteDataSource>(() => CategoryRemoteDataSourceImplWithDio(dio: sl()));
   sl.registerLazySingleton<FavouritesRemoteDataSource>(() => FavouritesRemoteDataSourceImplWithDio(dio: sl()));
+  sl.registerLazySingleton<DashBoardRemoteDataSource>(() => DashBoardRemoteDataSourceImpWithDio(dio: sl()));
+
   //! External
   sl.registerLazySingleton(() => InternetConnectionChecker());
   const String baseUrl = ApiStrings.baseUrl;

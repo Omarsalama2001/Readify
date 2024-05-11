@@ -5,7 +5,7 @@ import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
 import 'package:fruit_e_commerce/core/utils/app_colors.dart';
 
 class CustomRatingWidget extends StatelessWidget {
-  final double rating;
+  final num rating;
   const CustomRatingWidget({
     Key? key,
     required this.rating,
@@ -23,7 +23,7 @@ class CustomRatingWidget extends StatelessWidget {
           itemBuilder: (_, i) => const Icon(Icons.star, color: Colors.amber),
           itemCount: 5,
           itemSize: context.getHight(divide: 0.017),
-          rating: rating,
+          rating: rating.toDouble(),
         ));
   }
 }

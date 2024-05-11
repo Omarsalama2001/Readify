@@ -10,4 +10,4 @@ class AuthException implements Exception {
   
 }
 
-class EmailNotVerifiedException implements Exception {}
+class DuplicationException implements Exception{}

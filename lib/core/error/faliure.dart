@@ -19,6 +19,11 @@ class NoDataFaliure extends Failure{
     @override
       List<Object?> get props => [];
 }
+class DuplicationFailure extends Failure{
+    @override
+      List<Object?> get props => [];
+}
+
 
 class UnknowFailure extends Failure {
   @override

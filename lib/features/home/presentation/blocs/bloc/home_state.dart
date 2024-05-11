@@ -28,3 +28,15 @@ final class GetSearchBooksSuccessState extends HomeState {
 
   const GetSearchBooksSuccessState({required this.books});
 }
+
+final class ShareBookSuccessState extends HomeState {
+  
+}
+
+final class ShareBookFailureState extends HomeState {
+  final String errorMessage;
+
+const  ShareBookFailureState({required this.errorMessage});
+}
+
+final class ShareBookLoadingState extends HomeState {}

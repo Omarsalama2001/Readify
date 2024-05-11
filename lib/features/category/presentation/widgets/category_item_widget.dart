@@ -17,13 +17,24 @@ class CategoryItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) =>  CategoryBooksPage(category: category,)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => CategoryBooksPage(
+                      category: category,
+                    )));
       },
       child: Stack(children: [
         Container(
           height: context.getHight(divide: 0.18),
           width: context.getWidth(divide: 0.46),
-          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(context.getHight(divide: 0.01))), image:  DecorationImage(image: CachedNetworkImageProvider(category.imageUrl), fit: BoxFit.cover)),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(context.getHight(divide: 0.01))),
+              image: DecorationImage(
+                  image: CachedNetworkImageProvider(
+                    category.imageUrl,
+                  ),
+                  fit: BoxFit.cover)),
         ),
         Container(
           height: context.getHight(divide: 0.18),
@@ -39,8 +50,11 @@ class CategoryItemWidget extends StatelessWidget {
           child: Center(
             child: Text(
               category.name,
-              textAlign:TextAlign.center,
-              style: GoogleFonts.openSans().copyWith(color: Colors.white, fontSize: context.getHight(divide: 0.03),),
+              textAlign: TextAlign.center,
+              style: GoogleFonts.openSans().copyWith(
+                color: Colors.white,
+                fontSize: context.getHight(divide: 0.03),
+              ),
             ),
           ),
         )

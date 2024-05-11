@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -5,8 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fruit_e_commerce/core/constants/cache_keys.dart';
 import 'package:fruit_e_commerce/core/widgets/snack_bar.dart';
 import 'package:fruit_e_commerce/features/favourites/presentation/blocs/bloc/favourites_bloc.dart';
+import 'package:fruit_e_commerce/features/home/presentation/blocs/bloc/home_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:fruit_e_commerce/core/entities/book_entity.dart';
 import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
 import 'package:fruit_e_commerce/core/utils/app_colors.dart';
@@ -36,12 +38,31 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget> {
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.share_outlined)),
+          BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is ShareBookSuccessState) {
+                Fluttertoast.showToast(msg: "Book shared successfully", backgroundColor: Colors.green);
+                Navigator.pop(context);
+              }
+              if (state is ShareBookFailureState) {
+                SnackBarMessage.showSnackBar(SnackBarTypes.ERORR, state.errorMessage, context);
+                Navigator.pop(context);
+              }
+              if (state is ShareBookLoadingState) {
+                AwesomeDialog(context: context, dialogType: DialogType.info, animType: AnimType.bottomSlide, title: 'Please wait', desc: 'preparing for sharing ...', dismissOnBackKeyPress: false, dismissOnTouchOutside: false).show();
+              }
+            },
+            child: IconButton(
+                onPressed: () async {
+                  BlocProvider.of<HomeBloc>(context).add(ShareBookEvent(book: widget.book));
+                },
+                icon: const Icon(Icons.share_outlined)),
+          ),
           BlocListener<FavouritesBloc, FavouritesState>(
             listener: (context, state) {
               if (state is AddOrDeleteBookFromFavouritesSuccessState) {
                 Fluttertoast.showToast(msg: state.successMessage, backgroundColor: Colors.green);
-               favouritebloc.add(const GetUserFavouritesEvent(
+                favouritebloc.add(const GetUserFavouritesEvent(
                   userId: TOKENID_KEY,
                 ));
               }
@@ -55,7 +76,7 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget> {
                     onPressed: () {
                       _checkIfBookIsFavourite();
                     },
-                    icon:favouritebloc.userFavouritesBooks.any((element) => element.bookId == widget.book.bookId)
+                    icon: favouritebloc.userFavouritesBooks.any((element) => element.bookId == widget.book.bookId)
                         ? const Icon(
                             Icons.favorite,
                             color: AppColors.primaryColor,

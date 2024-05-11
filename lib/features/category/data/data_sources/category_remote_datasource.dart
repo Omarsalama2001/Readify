@@ -33,9 +33,9 @@ class CategoryRemoteDataSourceImplWithDio extends CategoryRemoteDataSource {
 
   @override
   Future<List<BookModel>> getCategoryBooks(String categoryId) async {
-    
-    final Response response = await dio.get("/Categories/$categoryId/books",);
-   
+    final Response response = await dio.get(
+      "/Categories/$categoryId/books",
+    );
 
     List<BookModel> categoryBooks;
     if (response.statusCode == 200) {

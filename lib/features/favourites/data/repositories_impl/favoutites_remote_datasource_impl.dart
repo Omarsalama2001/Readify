@@ -48,7 +48,6 @@ class FavouritesRepositoryImpl implements FavouritesRepository {
   Future<Either<Failure, Unit>> _getMessage(AddOrDeleteFromFavourites) async {
     if (await networkInfo.isConnected) {
       try {
-        print("reacheeed");
         return right(await AddOrDeleteFromFavourites());
       } on ServerException {
         return left(ServerFailure());

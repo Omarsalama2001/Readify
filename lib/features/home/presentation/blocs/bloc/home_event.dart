@@ -14,3 +14,11 @@ class SearchBooksEvent extends HomeEvent {
     required this.query,
   });
 }
+
+
+class ShareBookEvent extends HomeEvent {
+  final BookEntity book;
+  const ShareBookEvent({
+    required this.book,
+  });
+}

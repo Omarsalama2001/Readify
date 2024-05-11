@@ -23,7 +23,7 @@ class _BookPreveiwPageState extends State<BookPreveiwPage> {
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   late PdfViewerController _pdfViewerController;
   late PdfTextSearchResult _searchResult;
- final  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   int currentPage = 1;
   bool isDarkMode = false;
@@ -40,35 +40,41 @@ class _BookPreveiwPageState extends State<BookPreveiwPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: isSearching ? _pdfSearchAppBar() : _pdfAppBar(),
-      body: Stack(alignment: Alignment.bottomCenter, children: [
-        Column(
-          children: [
-            Expanded(
-              child: ColorFiltered(
-                colorFilter: isDarkMode ? const ColorFilter.mode(Colors.white, BlendMode.difference) : const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
-                child: SfPdfViewer.network(
-                  onDocumentLoadFailed: (details) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("something went wrong")));
-                  },
-                  controller: _pdfViewerController,
-                  otherSearchTextHighlightColor: AppColors.deleteButtonColor.withOpacity(0.4),
-                  canShowPaginationDialog: true,
-                  canShowPageLoadingIndicator: true,
-                  canShowScrollStatus: true,
-                  currentSearchTextHighlightColor: AppColors.primaryColor.withOpacity(0.4),
-                  onPageChanged: (details) {
-                    setState(() {
-                      currentPage = details.newPageNumber;
-                    });
-                  },
-                  widget.bookPdfUrl,
-                  key: _pdfViewerKey,
-                ),
+      body: widget.bookPdfUrl.isEmpty
+          ? const Center(
+              child: Text(
+              "No pdf found",
+              style: TextStyle(color: AppColors.primaryColor, fontSize: 30),
+            ))
+          : Stack(alignment: Alignment.bottomCenter, children: [
+              Column(
+                children: [
+                  Expanded(
+                    child: ColorFiltered(
+                      colorFilter: isDarkMode ? const ColorFilter.mode(Colors.white, BlendMode.difference) : const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
+                      child: SfPdfViewer.network(
+                        onDocumentLoadFailed: (details) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("something went wrong")));
+                        },
+                        controller: _pdfViewerController,
+                        otherSearchTextHighlightColor: AppColors.deleteButtonColor.withOpacity(0.4),
+                        canShowPaginationDialog: true,
+                        canShowPageLoadingIndicator: true,
+                        canShowScrollStatus: true,
+                        currentSearchTextHighlightColor: AppColors.primaryColor.withOpacity(0.4),
+                        onPageChanged: (details) {
+                          setState(() {
+                            currentPage = details.newPageNumber;
+                          });
+                        },
+                        widget.bookPdfUrl,
+                        key: _pdfViewerKey,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      ]),
+            ]),
     );
   }
 

@@ -15,3 +15,6 @@ const String EMAIL_NOT_VERIFIED_MESSAGE = "Please Verify Your Email";
 
 // ignore: constant_identifier_names
 const String AUTH_Failure_MESSAGE = "Invalid Email or Password";
+
+// ignore: constant_identifier_names
+const String DUPLICATION_FAILURE_MESSAGE = "Already Exist";
