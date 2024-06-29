@@ -191,7 +191,7 @@ class _BookDetailsWidgetState extends State<BookDetailsWidget> {
             padding: EdgeInsets.all(context.getDefaultSize()),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
               Text(
-                'Description :-',
+                'Description :',
                 style: GoogleFonts.nunito().copyWith(fontSize: context.getDefaultSize() * 2, fontWeight: FontWeight.bold),
               ),
               Padding(

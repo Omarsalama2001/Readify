@@ -16,11 +16,11 @@ class HomeRemoteDataSourceImplWithDio extends HomeRemoteDataSource {
 
   @override
   Future<List<BookModel>> getAllBooks() async {
-    
     Response response = await dio.get(ApiStrings.getAllBooksEndPoint);
     if (response.statusCode == 200) {
       List responseData = response.data[r"$values"] as List;
       List<BookModel> books = responseData.map((jsonBookModel) => BookModel.fromJson(jsonBookModel)).toList();
+      print(books);
 
       if (books.isEmpty) {
         throw NoDataException();

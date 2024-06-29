@@ -12,6 +12,7 @@ import 'package:fruit_e_commerce/features/admin/domain/use_cases/add_book_usecas
 import 'package:fruit_e_commerce/features/admin/domain/use_cases/add_category_usecase.dart';
 import 'package:fruit_e_commerce/features/admin/domain/use_cases/delete_book_usecase.dart';
 import 'package:fruit_e_commerce/features/admin/domain/use_cases/delete_category_usecase.dart';
+import 'package:fruit_e_commerce/features/admin/domain/use_cases/update_book_usecase.dart';
 import 'package:fruit_e_commerce/features/admin/domain/use_cases/update_category_usecase.dart';
 import 'package:fruit_e_commerce/features/category/domain/entities/category_entity.dart';
 import 'package:fruit_e_commerce/features/category/domain/use_cases/get_all_categories_usecase.dart';
@@ -28,6 +29,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   final DeleteBookUseCase deleteBookUseCase;
   final DeleteCategoryUseCase deleteCategoryUseCase;
   final UpdateCategoryUseCase updateCategoryUseCase;
+  final UpdateBookUseCase updateBookUseCase;
   bool isCategorySelected = true;
   List<CategoryEntity> categories = [];
   DashboardBloc(
@@ -38,6 +40,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     this.deleteBookUseCase,
     this.deleteCategoryUseCase,
     this.updateCategoryUseCase,
+    this.updateBookUseCase
   ) : super(DashboardInitial()) {
     on<DashboardEvent>((event, emit) async {
       if (event is SwitchCategoryEvent) {
@@ -76,10 +79,16 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         final failureOrUnit = await deleteCategoryUseCase(categoryId: event.categoryId);
         emit(_mapEventToState(failureOrUnit, Category_DELETED));
       }
-      if(event is UpdateCategoryEvent){
+      if (event is UpdateCategoryEvent) {
         emit(DashboardLoadingState());
         final failureOrUnit = await updateCategoryUseCase(categoryEntity: event.categoryEntity);
         emit(_mapEventToState(failureOrUnit, Category_UPDATED));
+      }
+
+      if(event is UpdateBookEvent){
+        emit(DashboardLoadingState());
+        final failureOrUnit = await updateBookUseCase(bookEntity: event.bookEntity);
+        emit(_mapEventToState(failureOrUnit, BOOK_UPDATED));
       }
     });
   }

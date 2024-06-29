@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
 import 'package:fruit_e_commerce/core/widgets/failures_widget.dart';
 import 'package:fruit_e_commerce/features/admin/presentation/blocs/bloc/dashboard_bloc.dart';
-import 'package:fruit_e_commerce/features/admin/presentation/widgets/add_button_widget.dart';
 import 'package:fruit_e_commerce/features/admin/presentation/widgets/table_row.widget.dart';
 
 class TableWidget extends StatelessWidget {
@@ -29,7 +28,6 @@ class TableWidget extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  AddButtonWidget(),
                   Table(
                       columnWidths: const {
                         0: FlexColumnWidth(1),
@@ -55,7 +53,6 @@ class TableWidget extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  AddButtonWidget(),
                   Table(
                       columnWidths: const {
                         0: FlexColumnWidth(1),

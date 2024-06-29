@@ -10,7 +10,8 @@ abstract class DashBoardRemoteDataSource {
   Future<Unit> addCategory({required CategoryModel categoryModel});
   Future<Unit> deleteBook({required String bookId});
   Future<Unit> deleteCategory({required String categoryId});
-  Future<Unit>updateCategory({required CategoryModel categoryModel});
+  Future<Unit> updateCategory({required CategoryModel categoryModel});
+  Future<Unit> updateBook({required BookModel bookModel});
 }
 
 class DashBoardRemoteDataSourceImpWithDio extends DashBoardRemoteDataSource {
@@ -59,14 +60,23 @@ class DashBoardRemoteDataSourceImpWithDio extends DashBoardRemoteDataSource {
       throw ServerException();
     }
   }
-  
+
   @override
-  Future<Unit> updateCategory({required CategoryModel categoryModel})async {
-    Response response =await dio.put(ApiStrings.updateCategoryEndPoint, data: categoryModel.toJson(),queryParameters: {'CategoryId':categoryModel.categoryId});
+  Future<Unit> updateCategory({required CategoryModel categoryModel}) async {
+    Response response = await dio.put(ApiStrings.updateCategoryEndPoint, data: categoryModel.toJson(), queryParameters: {'categoryId': categoryModel.categoryId});
     if (response.statusCode == 200) {
       return Future.value(unit);
+    } else {
+      throw ServerException();
     }
-    else {
+  }
+
+  @override
+  Future<Unit> updateBook({required BookModel bookModel}) async {
+    Response response = await dio.put(ApiStrings.updateBookEndPoint, data: bookModel.toJson(), queryParameters: {'Id': bookModel.bookId});
+    if (response.statusCode == 200) {
+      return Future.value(unit);
+    } else {
       throw ServerException();
     }
   }

@@ -39,3 +39,7 @@ class UpdateCategoryEvent extends DashboardEvent{
   final CategoryEntity categoryEntity;
   const UpdateCategoryEvent({required this.categoryEntity});
 }
+class UpdateBookEvent extends DashboardEvent{
+  final BookEntity bookEntity;
+  const UpdateBookEvent({required this.bookEntity});
+}

@@ -45,6 +45,10 @@ class DashBoardRepositoryImpl extends DashBoardRepository {
       } on ServerException {
         return left(ServerFailure());
       } catch (error) {
+        print("omarrrrrrrrrrrrrrrrrrrrrrrr******************************");
+        print(error.toString());
+        print("omarrrrrrrrrrrrrrrrrrrrrrrr******************************");
+
         return left(UnknowFailure());
       }
     } else {
@@ -77,28 +81,44 @@ class DashBoardRepositoryImpl extends DashBoardRepository {
       } on ServerException {
         return left(ServerFailure());
       } catch (error) {
+        print(error.toString());
         return left(UnknowFailure());
       }
     } else {
       return left(ConnectionFailure());
     }
   }
-  
+
   @override
-  Future<Either<Failure, Unit>> updateCategory({required CategoryEntity categoryEntity}) async{
-   if(await networkInfo.isConnected){
-     try{
-       await dashBoardRemoteDataSource.updateCategory(categoryModel: CategoryModel(categoryId: categoryEntity.categoryId, name: categoryEntity.name, imageUrl: categoryEntity.imageUrl));
-       return right(unit);
+  Future<Either<Failure, Unit>> updateCategory({required CategoryEntity categoryEntity}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await dashBoardRemoteDataSource.updateCategory(categoryModel: CategoryModel(categoryId: categoryEntity.categoryId, name: categoryEntity.name, imageUrl: categoryEntity.imageUrl));
+        return right(unit);
+      } on ServerException {
+        return left(ServerFailure());
+      } catch (error) {
+        return left(UnknowFailure());
+      }
+    } else {
+      return left(ConnectionFailure());
+    }
+  }
 
-     }on ServerException{
-      return left(ServerFailure());
-     }catch(error){
-      return left(UnknowFailure());
-     }
-
-   } else{
-    return left(ConnectionFailure());
-   }
+  @override
+  Future<Either<Failure, Unit>> updateBook({required BookEntity bookEntity}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await dashBoardRemoteDataSource.updateBook(
+            bookModel: BookModel(bookId: bookEntity.bookId, title: bookEntity.title, description: bookEntity.description, bookCover: bookEntity.bookCover, bookPdf: bookEntity.bookPdf, rate: bookEntity.rate, numberOfPages: bookEntity.numberOfPages, bookVersion: bookEntity.bookVersion, categoryId: bookEntity.categoryId, publishingDate: bookEntity.publishingDate, author: bookEntity.author, bookRatingCount: bookEntity.bookRatingCount, bookReviewCount: bookEntity.bookReviewCount));
+        return right(unit);
+      } on ServerException {
+        return left(ServerFailure());
+      } catch (error) {
+        return left(UnknowFailure());
+      }
+    } else {
+      return left(ConnectionFailure());
+    }
   }
 }

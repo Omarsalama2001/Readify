@@ -3,7 +3,7 @@ import 'package:fruit_e_commerce/core/utils/helper.dart';
 
 class BookModel extends BookEntity {
   const BookModel({required super.bookId, required super.title, required super.description, required super.bookCover, required super.bookPdf, required super.rate, required super.numberOfPages, required super.bookVersion, required super.categoryId, required super.publishingDate, required super.author, required super.bookRatingCount, required super.bookReviewCount});
-  factory BookModel.fromJson(Map<String, dynamic> json) {
+ factory  BookModel.fromJson(Map<String, dynamic> json) {
     return BookModel(
         bookId: json['id'] ?? "",
         title: json['title'] ?? "",
@@ -20,5 +20,5 @@ class BookModel extends BookEntity {
         bookReviewCount: json['book_Review_Count'] ?? 0);
   }
 
-  Map<String, dynamic> toJson() => {'title': title, 'description': description, 'coverUrl': Helper.generateDownloadLink(bookCover), 'authorName': author, 'bookUrl':Helper.generateDownloadLink(bookPdf), 'rate': rate, 'no_Pages': numberOfPages, 'version': bookVersion, 'categoryId': categoryId, 'publishing_date': publishingDate.toIso8601String(), 'book_Review_Count': bookReviewCount, 'book_Rating_Count': bookRatingCount};
+  Map<String, dynamic> toJson() => {'title': title, 'description': description, 'coverUrl': Helper.generateDownloadLink(bookCover), 'authorName': author, 'bookUrl':Helper.generateDownloadLink(bookPdf), 'rate': rate, 'no_Pages': numberOfPages, 'version': bookVersion, 'categoryId': categoryId, 'publishing_date': publishingDate.toIso8601String()};
 }

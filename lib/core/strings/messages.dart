@@ -21,3 +21,6 @@ const String BOOK_ADDED = "Book Added Successfully";
 
  // ignore: constant_identifier_names
  const String Category_UPDATED = "Category Updated Successfully";
+
+ // ignore: constant_identifier_names
+ const String BOOK_UPDATED = "Book Updated Successfully";

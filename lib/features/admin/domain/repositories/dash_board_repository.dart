@@ -9,4 +9,5 @@ abstract class DashBoardRepository {
   Future<Either<Failure, Unit>> deleteBook({required String bookId});
   Future<Either<Failure, Unit>> deleteCategory({required String categoryId});
   Future<Either<Failure,Unit>> updateCategory({required CategoryEntity categoryEntity});
+  Future<Either<Failure, Unit>> updateBook({required BookEntity bookEntity});
 }

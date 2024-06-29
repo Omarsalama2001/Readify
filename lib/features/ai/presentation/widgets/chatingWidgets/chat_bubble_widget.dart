@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
 import 'package:fruit_e_commerce/core/utils/app_colors.dart';
+import 'package:intl/intl.dart';
 
 class ChatBubble extends StatelessWidget {
   final bool isbotMessage;
+  final String message;
   const ChatBubble({
     Key? key,
     required this.isbotMessage,
+    required this.message,
   }) : super(key: key);
 
   @override
@@ -35,7 +38,7 @@ class ChatBubble extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(context.getDefaultSize() * 2),
                 child: Text(
-                 isbotMessage? "Welcome to the chatbot, how can I help you ?":"Hello Chatbot, can you help me ?",
+                  message,
                   style: TextStyle(color: isbotMessage ? Colors.white : Colors.black, fontSize: context.getDefaultSize() * 1.5, fontWeight: FontWeight.w600),
                 ),
               ),
@@ -45,7 +48,7 @@ class ChatBubble extends StatelessWidget {
               child: Align(
                 alignment: isbotMessage ? Alignment.centerRight : Alignment.centerLeft,
                 child: Text(
-                  "10:00 AM",
+                  '${DateFormat.yMEd().add_jms().format(DateTime.now())} ',
                   style: TextStyle(color: Colors.grey, fontSize: context.getHight(divide: 0.015)),
                 ),
               ),
