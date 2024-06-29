@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
 import 'package:fruit_e_commerce/core/utils/app_colors.dart';
+import 'package:fruit_e_commerce/features/admin/presentation/pages/admin_dashboard_page.dart';
 import 'package:fruit_e_commerce/features/authors/presentation/pages/authors_page.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -15,23 +18,30 @@ class AppDrawer extends StatelessWidget {
         backgroundColor: Colors.white,
         child: Column(
           children: [
-            SizedBox(
-              height: context.getHight(divide: 0.3),
-              child: DrawerHeader(
-                  padding: const EdgeInsets.all(0),
-                  margin: const EdgeInsets.all(0),
-                  decoration: const BoxDecoration(
-                    color: AppColors.primaryColor,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "READIFY",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: context.getDefaultSize() * 3,
-                      ),
+            GestureDetector(
+              onLongPress: () {
+                // just for demo test
+                Fluttertoast.showToast(msg: "Admin Mood", backgroundColor: AppColors.primaryColor, toastLength: Toast.LENGTH_LONG);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AdminDashboardPage()));
+              },
+              child: SizedBox(
+                height: context.getHight(divide: 0.3),
+                child: DrawerHeader(
+                    padding: const EdgeInsets.all(0),
+                    margin: const EdgeInsets.all(0),
+                    decoration: const BoxDecoration(
+                      color: AppColors.primaryColor,
                     ),
-                  )),
+                    child: Center(
+                      child: Text(
+                        "READIFY",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: context.getDefaultSize() * 3,
+                        ),
+                      ),
+                    )),
+              ),
             ),
             InkWell(
               onTap: () {

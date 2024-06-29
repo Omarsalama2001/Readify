@@ -6,7 +6,13 @@ import 'package:fruit_e_commerce/core/extensions/media_query_extension.dart';
 import 'package:fruit_e_commerce/core/utils/app_colors.dart';
 
 class SearchBarWidget extends StatelessWidget {
-  const SearchBarWidget({super.key});
+  Function(String )? onChanged;
+
+  SearchBarWidget({
+    Key? key,
+    this.onChanged,
+  }) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +32,7 @@ class SearchBarWidget extends StatelessWidget {
       padding: MaterialStatePropertyAll(EdgeInsets.all(context.getHight(divide: 0.013))),
       backgroundColor: const MaterialStatePropertyAll(AppColors.backgroundColor),
       shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(context.getHight(divide: 0.01))))),
+      onChanged: onChanged!, 
     );
   }
 }

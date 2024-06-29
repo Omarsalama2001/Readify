@@ -16,11 +16,16 @@ class ConnectionBloc extends Bloc<ConnectionEvent, ConnectionStates> {
         emit(NotConnectedState(message: "you are in offline mode"));
       }
     });
+    bool isNotConnected = false;
 
     _connectivity = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       if (result == ConnectivityResult.wifi || result == ConnectivityResult.mobile) {
-        add(ConnectedEvent());
+        if (isNotConnected) {
+          isNotConnected = false;
+          add(ConnectedEvent());
+        }
       } else {
+        isNotConnected = true;
         add(NotConnectedEvent());
       }
     });

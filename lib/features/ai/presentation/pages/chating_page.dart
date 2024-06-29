@@ -23,5 +23,5 @@ class ChatingPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() => const ChatingWidget();
+  Widget _buildBody() =>ChatingWidget();
 }
